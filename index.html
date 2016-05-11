@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Todos</title>
+	
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+	
+</head>
+<body>
+	
+	<div class="container" id="app">
+		<h2 class="text-center">Create Your Task-list Here</h2>
+		
+				
+		<div class="col-sm-4 col-sm-offset-4 pending">
+			<div class="pending" v-show="inProgress.length" >
+				<h4>Pending Tasks ({{inProgress.length }}):</h4>
+				
+				<ul class="list-group">
+					<li class="list-group-item" v-for="todo in inProgress"> <span @dblclick="updateTask(todo)"> {{ todo.task }}  </span> <span @click="deleted(todo)" class="deleted">&#10060;</span><span @click="taskCompleted(todo)" class="completed">&#10004;</span> </li>
+				</ul>
+			</div>
+
+			<h4 v-else>You don't have a task list yet, why not create one ??</h4>
+			
+			
+			
+		</div>
+
+		<div class="col-sm-4 col-sm-offset-4">
+			<!--<form>
+			  
+			</form> -->
+			<div class="form-group">
+				<input v-model="task" v-el="taskEntry"  type="text" name="todo" id="todo" class="form-control" />	
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Add Task" @click="addTodos" class="btn btn-primary" />	
+				<button  @click="removeTodos" class="btn btn-danger">Remove All Tasks</button>	
+						
+			</div>
+			<div class="clearfix"></div>
+		<hr />
+		</div>
+		
+		
+		<div class="clearfix"></div>
+		
+		
+				
+		<div class="col-sm-4 col-sm-offset-4 completed">
+
+			<div class="completed" v-show="completed.length" >
+
+				<h4 >Completed Tasks({{ completed.length }}):</h4>
+				
+				<ul class="list-group">
+					<li class="list-group-item" v-for="todo in completed"> {{ todo.task }}  <span @click="inComplete(todo)" class="deleted">&#10060;</span> </li>
+				</ul>
+			</div>
+			
+			
+			
+		</div>
+
+	<div class="clearfix"></div>
+		
+		
+	</div>	
+	
+	
+	<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		new Vue({
+			el:'#app',
+			data:{
+				todos: [{task:'Go to the University', completed: false}],
+				task:''	
+				
+			},
+			
+			methods:{
+				addTodos: function(){
+					if(!this.task.trim()) return;
+					this.todos.push({task: this.task, completed: false});
+					this.task = '';
+					//this.$$.taskEntry.focus(); // using v-el directives
+					document.getElementById('todo').focus();
+				},
+				
+				updateTask: function(todo){
+					this.task = todo.task;
+					this.deleted(todo);
+					document.getElementById('todo').focus();
+				},
+				
+				
+				deleted: function(task){
+					this.todos.$remove(task);
+				},
+				
+				taskCompleted: function(task){
+					task.completed = true;
+				},
+				
+				inComplete: function(task){
+					task.completed = false;
+				},
+				
+				removeTodos: function(){
+					this.todos = [];
+				}
+			},
+			
+			filters: {},
+			
+			
+			computed:{
+				completed: function(){
+					return this.todos.filter(function(task){
+							return	task.completed;
+					});
+				},
+				
+				inProgress: function(){
+					return this.todos.filter(function(task){
+							return	!task.completed;
+					});
+				}
+				
+				
+			} 
+			
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+span.completed, span.deleted{
+	float: right;
+	padding: 0 8px;
+	cursor: pointer; 
+}
+
+span.deleted{
+	color: red;
+}
+
+span.completed{
+	margin-right: 8px;
+	color: #5CB85C;
+}
+
+.completed .list-group-item{
+	background: #dff0d8;
+	border-color: #d6e9c6;
+}
+
+
+.pending .list-group-item{
+/*	background: #a94442;
+	border-color: #c94442;
+	color: #FFFFFF;
+*/	
+}
